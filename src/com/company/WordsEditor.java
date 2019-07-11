@@ -39,7 +39,7 @@ public class WordsEditor {
     }
 
     static <K,V extends Comparable<? super V>>
-    SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
+    SortedSet<Map.Entry<K,V>> sortedEntriesByValues(Map<K,V> map) {
         SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<>(
                 (e1, e2) -> {
                     int res = e2.getValue().compareTo(e1.getValue());
@@ -59,6 +59,6 @@ public class WordsEditor {
             } else
                 wordFrequency.put(key, 1);
         }
-        return entriesSortedByValues(wordFrequency).stream().limit(topUsefulWords).collect(Collectors.toList());
+        return sortedEntriesByValues(wordFrequency).stream().limit(topUsefulWords).collect(Collectors.toList());
     }
 }
