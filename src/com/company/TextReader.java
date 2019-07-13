@@ -7,18 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextReader {
-    static List<String> song = new ArrayList<>();
-    public void readText() {
-        String url = this.getClass().getResource("data.txt").getPath();
-        try (
-                BufferedReader br = new BufferedReader(new FileReader(url))) {
+    private List<String> song = new ArrayList<>();
+    private final String URL = this.getClass().getClassLoader().getResource("data.txt").getFile();
+
+    public List<String> readText() {
+        try (BufferedReader br = new BufferedReader(new FileReader(URL))) {
             String s;
             while ((s = br.readLine()) != null) {
                 song.add(s);
             }
-        } catch (
-                IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-    }
+    return song;}
 }

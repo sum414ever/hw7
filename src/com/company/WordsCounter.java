@@ -3,17 +3,16 @@ package com.company;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class WordsEditor {
-    List<String> shortWordsAndSwears = new ArrayList<>();
-    List<String> longWords = new ArrayList<>();
-    static int wordsCounter;
+public class WordsCounter {
+    private List<String> shortWordsAndSwears = new ArrayList<>();
+    private List<String> longWords = new ArrayList<>();
+    private int wordsCounter;
 
     TextReader tr = new TextReader();
 
-    public void separateIntoWords() {
-        tr.readText();
+    protected void separateIntoWords() {
 
-        for (String word : TextReader.song) {
+        for (String word : tr.readText()) {
             List<String> oneByOne = Arrays.asList(word.split("['\\s]"));
             for (String oneWord : oneByOne) {
                 wordsCounter++;
@@ -25,7 +24,7 @@ public class WordsEditor {
         System.out.println("That song have " + wordsCounter + " words");
     }
 
-    public void separateSwears() {
+    protected void separateSwears() {
         for (int i = 0; i < Swears.swears.size(); i++) {
             for (int j = 0; j < longWords.size(); j++) {
                 if (Swears.swears.get(i).equalsIgnoreCase(longWords.get(j))) {
@@ -38,9 +37,8 @@ public class WordsEditor {
         System.out.println("Total number words without short words and swears is " + longWords.size());
     }
 
-    static <K,V extends Comparable<? super V>>
-    SortedSet<Map.Entry<K,V>> sortedEntriesByValues(Map<K,V> map) {
-        SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<>(
+    private SortedSet<Map.Entry<String, Integer>> sortedEntriesByValues(Map<String, Integer> map) {
+        SortedSet<Map.Entry<String, Integer>> sortedEntries = new TreeSet<>(
                 (e1, e2) -> {
                     int res = e2.getValue().compareTo(e1.getValue());
                     return res != 0 ? res : 1;
@@ -50,7 +48,8 @@ public class WordsEditor {
         return sortedEntries;
 
     }
-    public List countOccurrences(int topUsefulWords) {
+
+    protected void countOccurrences(int topUsefulWords) {
         System.out.println("The " + topUsefulWords + " frequently used words is: ");
         Map<String, Integer> wordFrequency = new TreeMap<>();
         for (String key : longWords) {
@@ -59,6 +58,8 @@ public class WordsEditor {
             } else
                 wordFrequency.put(key, 1);
         }
-        return sortedEntriesByValues(wordFrequency).stream().limit(topUsefulWords).collect(Collectors.toList());
+        System.out.println(sortedEntriesByValues(wordFrequency).stream()
+                .limit(topUsefulWords)
+                .collect(Collectors.toList()));
     }
 }
